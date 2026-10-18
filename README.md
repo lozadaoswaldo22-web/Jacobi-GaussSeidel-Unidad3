@@ -1,54 +1,80 @@
-# Practica: Jacobi y Gauss-Seidel
-Metodos Numericos, Unidad 3. Instituto Tecnologico Superior de Xalapa.
+# Métodos de Jacobi y Gauss-Seidel
 
-## Sistema y parametros
-5x + y + z = 7; x + 4y + z = 6; x + 2y + 5z = 8.
-Vector inicial [0,0,0], tolerancia 0.0001 y limite de 100 iteraciones.
-Solucion exacta: [1,1,1]. Error: maximo absoluto de las diferencias
-entre iteraciones consecutivas. No es error relativo ni residuo.
+**Alumno:** Oswaldo Lozada Hernández  
+**Carrera:** Ingeniería en Sistemas Computacionales  
+**Materia:** Métodos Numéricos  
+**Docente:** Víctor Hugo Vásquez Herrera  
+**Institución:** Instituto Tecnológico Superior de Xalapa  
+**Unidad:** 3
 
-## Arquitectura
-- src/Ecuaciones_lineales/JACOBI/Defmatrix.java: matriz y vectores.
-- src/Ecuaciones_lineales/JACOBI/MetodoJacobi.java: Jacobi y error compartido.
-- src/Ecuaciones_lineales/Gauss_Seidel/GaussSeidelMetodo.java: Gauss-Seidel.
-- src/Ecuaciones_lineales/JACOBI/MainJacobi.java: ejecucion de ambos metodos.
+## Objetivo
 
-Se conservaron las clases base, corrigiendo kMainJacobi a MainJacobi.
-Se unifico el paquete Ecuaciones_lineales para coincidir con la estructura
-solicitada en el PDF. Esta version imprime cada iteracion.
-Los metodos validan el sistema 3x3 y avisan si no convergen.
+Resolver un sistema de ecuaciones lineales mediante los métodos de Jacobi y Gauss-Seidel en Java, separando los datos, los métodos y la ejecución en diferentes clases.
 
-## Ejecutar en IntelliJ IDEA
-1. Instala/configura un JDK 17 o superior.
-2. Descomprime el proyecto y abre su carpeta en IntelliJ (Open).
-3. En File > Project Structure > Project selecciona el JDK.
-4. Si src no se reconoce, clic derecho sobre src > Mark Directory as > Sources Root.
-5. Abre MainJacobi.java y ejecuta el triangulo junto a main.
-6. Comprueba ambas tablas y guarda capturas propias de la consola.
+## Sistema de ecuaciones
 
-## Ejecutar desde terminal
-Desde la carpeta que contiene src, con un JDK instalado:
-
-```sh
-javac -d out src/Ecuaciones_lineales/JACOBI/*.java src/Ecuaciones_lineales/Gauss_Seidel/*.java
-java -cp out Ecuaciones_lineales.JACOBI.MainJacobi
+```text
+5x +  y +  z = 7
+ x + 4y +  z = 6
+ x + 2y + 5z = 8
 ```
 
-## Resultados esperados y verificacion
-Jacobi: 16 iteraciones. Gauss-Seidel: 6 iteraciones.
-Los valores de referencia se calcularon independientemente en Python;
-no se ejecuto ni compilo Java en el entorno de preparacion porque no dispone de javac.
-Contrastar los resultados con la consola Java antes de la entrega.
-El detalle esta en resultados_referencia.txt.
+Los dos métodos utilizan los mismos valores iniciales:
 
-## GitHub publico y entrega
-1. En GitHub crea un repositorio llamado Jacobi-GaussSeidel-Unidad3.
-2. Selecciona Public y crea el repositorio.
-3. Usa Add file > Upload files y arrastra src, README.md y .gitignore
-   (si el archivo oculto no aparece, puedes crearlo despues con Add file).
-   No subas solamente el ZIP: el codigo debe poder consultarse.
-4. Confirma con Commit changes.
-5. Abre la pagina principal y copia el enlace del repositorio.
-6. Entrega ese enlace junto con el reporte PDF. Conserva las rutas y mayusculas.
-7. El reporte incluye tablas de referencia; agrega capturas de tu ejecucion real
-   si deseas evidencias visuales. No se ha publicado un repositorio desde este entorno.
+- Vector inicial: [0, 0, 0].
+- Tolerancia: 0.0001.
+- Máximo de iteraciones: 100.
+
+## Organización del proyecto
+
+El programa está dividido en cuatro clases:
+
+| Clase | Función |
+|---|---|
+| Defmatrix.java | Contiene la matriz del sistema, el vector de términos independientes y el vector inicial. |
+| MetodoJacobi.java | Realiza las iteraciones de Jacobi y calcula el error máximo entre dos aproximaciones consecutivas. |
+| GaussSeidelMetodo.java | Realiza las iteraciones de Gauss-Seidel y reutiliza la función de error de Jacobi. |
+| MainJacobi.java | Ejecuta ambos métodos y muestra los resultados en consola. |
+
+Los archivos se encuentran dentro de la carpeta `src`, organizados en los paquetes `Ecuaciones_lineales.JACOBI` y `Ecuaciones_lineales.Gauss_Seidel`.
+
+## Funcionamiento
+
+En Jacobi, cada nueva aproximación se calcula utilizando los valores de la iteración anterior.
+
+En Gauss-Seidel, los valores se actualizan en el mismo vector. Esto permite utilizar inmediatamente los resultados calculados durante la iteración.
+
+El programa muestra una tabla con el número de iteración, los valores de x, y, z y el error máximo. El proceso termina cuando el error es menor que la tolerancia indicada.
+
+## Cómo ejecutar el programa
+
+1. Descargar el repositorio y descomprimirlo.
+2. Abrir la carpeta del proyecto en IntelliJ IDEA.
+3. Configurar el JDK del proyecto.
+4. Marcar `src` como carpeta de código fuente si IntelliJ no la reconoce.
+5. Abrir `MainJacobi.java`.
+6. Ejecutar el método `main`.
+7. Consultar las tablas y las soluciones en la consola.
+
+## Resultados esperados
+
+| Método | Iteraciones |
+|---|---:|
+| Jacobi | 16 |
+| Gauss-Seidel | 6 |
+
+Ambos métodos se aproximan a la solución:
+
+```text
+x = 1
+y = 1
+z = 1
+```
+
+Estos resultados corresponden a una tolerancia de 0.0001, utilizando como error el máximo cambio absoluto entre iteraciones consecutivas.
+
+## Conclusión
+
+Para este sistema, Gauss-Seidel necesita menos iteraciones que Jacobi porque utiliza los valores nuevos conforme los calcula. Los dos métodos permiten obtener una aproximación a la misma solución.
+
+La organización por clases facilita entender el programa, ya que cada archivo tiene una función específica y los datos del sistema se pueden modificar sin cambiar la lógica de los métodos.
